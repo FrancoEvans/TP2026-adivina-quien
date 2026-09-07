@@ -5,7 +5,7 @@ import java.util.List;
 
 // un jugador (humano o maquina). la logica comun vive aca; como elige la jugada
 // se delega en una Estrategia.
-public class Jugador {
+public abstract class Jugador {
 
     private final String nombre;
     private final Personaje eleccion;         // su personaje secreto
@@ -19,9 +19,13 @@ public class Jugador {
         this.candidatos = new ArrayList<>(tablero);
     }
 
-    // el rival consulta por aca, no accede a eleccion
+    // el rival consulta pregunta y arriesga a traves de aca
     public boolean responderPregunta(Pregunta pregunta) {
         return pregunta.evaluar(eleccion);
+    }
+
+    public boolean responderSuposicion(Personaje suposicion) {
+        return suposicion.getId() == eleccion.getId();
     }
 
     // pide la jugada del turno a la estrategia
@@ -40,6 +44,9 @@ public class Jugador {
     public boolean identificado() {
         return candidatos.size() == 1;
     }
+
+    public abstract Jugada elegirJugada();
+
 
     public String getNombre() { return nombre; }
     public Personaje getEleccion() { return eleccion; }

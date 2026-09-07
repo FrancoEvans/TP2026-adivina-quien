@@ -3,24 +3,51 @@ package TP;
 import java.util.ArrayList;
 import java.util.List;
 
-// main de prueba.
 
 // por hacer:
 //  - logica de turnos
 
 public class Juego {
+    private Jugador jugadorA;
+    private Jugador jugadorB;
+    private Jugador turnoActual;
+    private Jugador ganador;
+    private int turno;
 
-    public static void main(String[] args) {
-        ListaPersonajes lista = new ListaPersonajes();
-        lista.generarPersonajesAleatorios(23);
-
-        // la maquina los dispone: ordena por genero, id autoincremental
-        lista.ordenar(Criterios.porGenero());
-        lista.mostrarLista();
-
-        List<Pregunta> preguntas = new ArrayList<>();
-        preguntas.add(new Pregunta("Es de genero femenino?", "genero", "Femenino"));
-        preguntas.add(new Pregunta("Usa lentes?", "tieneLentes", "true"));
-        preguntas.add(new Pregunta("Es calvo?", "tienePelo", "false"));
+    public void iniciar() {
+        // verificar que ambos jugadores tienen eleccion y candidatos
+        // asigna turnoActual a un jugador aleatorio
+        // define que turno = 1
     }
+
+    public Jugador rivalDe(Jugador jugador) {
+        if (jugador == jugadorA) {
+            return jugadorB;
+        } else {
+            return jugadorA;
+        }
+    }
+
+    public void jugarTurno() {
+
+        Jugador rival = rivalDe(turnoActual);
+        Jugada jugada = turnoActual.elegirJugada();
+
+        if (termino()) return;
+
+        if (jugada.esPregunta()) {
+            rival.responderPregunta(jugada.getPregunta());
+        } else {
+            // el jugador arriesgo
+
+        }
+
+        turno ++;
+        turnoActual = rival;
+    }
+
+    public boolean termino() {
+        // devuelve si la partida ya termino
+    }
+
 }

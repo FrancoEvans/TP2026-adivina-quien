@@ -87,3 +87,23 @@ bitacora raw. cada entrada = un avance o decision. despues alimenta la bitacora 
 **pendiente**
 - implementaciones de Estrategia: humano por consola, maquina greedy.
 - logica de turnos en Juego.
+
+
+## 2026-09-06 - parte 3 - algunos cambios
+
+`JugadorHumano` y `JugadorMaquina`
+  - queriamos que el cirterio para `elegirJugada` para un `Jugador` sea diferente dependiendo si es la maquina o el humano.
+  - se crearon las clases que heredan de `Jugador`: `JugadorHumano` y `JugadorMaquina`. solo cambia la funcion `elegirJugada()` y para eso la clase `Jugador` ahora es abstracta y tiene una funcion abstracta `elegirJugada()`.
+
+  **proximos pasos**
+  
+- crear un algoritmo para que la maquina elija una jugada eficientemente teniendo en cuenta la lista de personajes y los atributos
+- crear una UI con event listeners para que el humano pueda elegir su jugada clikeando opciones 
+
+- `Juego.jugarTurno()` que esta incompleto
+- una opcion para que, cuando un jugador arriesga y no acierta, se descarte de la lista tablero el personaje que eligio arriesgar
+
+**cambios**
+
+-`Juego` ya no es el main, ahora `Main` lo es
+- `Juego` representa el flujo del juego turno a turno
