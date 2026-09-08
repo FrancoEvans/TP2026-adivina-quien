@@ -13,11 +13,26 @@ public class Juego {
     private Jugador turnoActual;
     private Jugador ganador;
     private int turno;
+    // El constructor juego hace que al main le pueda pasar new Juego(a,b)
 
-    public void iniciar() {
-        // verificar que ambos jugadores tienen eleccion y candidatos
+    public Juego(Jugador jugadorA, Jugador jugadorB) {
+        this.jugadorA = jugadorA;
+        this.jugadorB = jugadorB;
+    }
+
+    public void iniciar(List<Personaje> tablero) {
+        // pide a cada jugador que elija su personaje secreto hasta que lo haga
+        while (jugadorA.getEleccion() == null) {
+            jugadorA.elegirPersonajeSecreto(tablero);
+        }
+        while (jugadorB.getEleccion() == null) {
+            jugadorB.elegirPersonajeSecreto(tablero);
+        }
+
         // asigna turnoActual a un jugador aleatorio
+        turnoActual = new java.util.Random().nextBoolean() ? jugadorA : jugadorB;
         // define que turno = 1
+        turno = 1;
     }
 
     public Jugador rivalDe(Jugador jugador) {
@@ -29,17 +44,20 @@ public class Juego {
     }
 
     public void jugarTurno() {
+        if (termino()) return;
 
         Jugador rival = rivalDe(turnoActual);
         Jugada jugada = turnoActual.elegirJugada();
 
-        if (termino()) return;
-
         if (jugada.esPregunta()) {
-            rival.responderPregunta(jugada.getPregunta());
+            boolean respuesta = rival.responderPregunta(jugada.getPregunta());
+            turnoActual.descartar(jugada.getPregunta(), respuesta);
         } else {
-            // el jugador arriesgo
-
+            //Cuando el jugador arriesgo
+            boolean acierto = rival.responderSuposicion(jugada.getPersonaje());
+            if (acierto) {
+                ganador = turnoActual;
+            }
         }
 
         turno ++;
@@ -48,6 +66,7 @@ public class Juego {
 
     public boolean termino() {
         // devuelve si la partida ya termino
+        return ganador != null;
     }
 
 }

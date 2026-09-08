@@ -119,7 +119,22 @@ public class Personaje {
 
     public String getTipoPelo() {
         return tipoPelo;
+    }
 
+    public boolean tieneMismasCaracteristicas(Personaje otro) {
+        return this.genero.equals(otro.genero)
+                && this.rangoEteareo.equals(otro.rangoEteareo)
+                && this.colorPelo.equals(otro.colorPelo)
+                && this.tieneGorro == otro.tieneGorro
+                && this.colorPiel.equals(otro.colorPiel)
+                && this.tieneLentes == otro.tieneLentes
+                && this.colorOjos.equals(otro.colorOjos)
+                && this.tieneCollar == otro.tieneCollar
+                && this.colorRemera.equals(otro.colorRemera)
+                && this.tieneBarba == otro.tieneBarba
+                && this.tienePelo == otro.tienePelo
+                && this.largoPelo.equals(otro.largoPelo)
+                && this.tipoPelo.equals(otro.tipoPelo);
     }
     @Override
     public String toString() {

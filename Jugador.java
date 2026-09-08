@@ -4,18 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 // un jugador (humano o maquina). la logica comun vive aca; como elige la jugada
-// se delega en una Estrategia.
+// La estrategia ya no se define con un objeto, ahora llaman al metodo  elegirJugada(), y cada subclase lo define de una forma..
 public abstract class Jugador {
 
     private final String nombre;
-    private final Personaje eleccion;         // su personaje secreto
-    private final Estrategia estrategia;
+    private Personaje eleccion;  // su personaje secreto
     private final List<Personaje> candidatos; // los que le quedan del rival
 
-    public Jugador(String nombre, Personaje eleccion, Estrategia estrategia, List<Personaje> tablero) {
+    // la eleccion del personaje secreto todavia no se conoce al crear el jugador, se agrega despues con un setter
+    public Jugador(String nombre, List<Personaje> tablero) {
         this.nombre = nombre;
-        this.eleccion = eleccion;
-        this.estrategia = estrategia;
         this.candidatos = new ArrayList<>(tablero);
     }
 
@@ -26,11 +24,6 @@ public abstract class Jugador {
 
     public boolean responderSuposicion(Personaje suposicion) {
         return suposicion.getId() == eleccion.getId();
-    }
-
-    // pide la jugada del turno a la estrategia
-    public Jugada jugar(List<Pregunta> preguntasDisponibles) {
-        return estrategia.elegirJugada(candidatos, preguntasDisponibles);
     }
 
     // descarta candidatos segun la respuesta del rival a una pregunta
@@ -44,9 +37,15 @@ public abstract class Jugador {
     public boolean identificado() {
         return candidatos.size() == 1;
     }
-
+    // Se llama cuando arranca la partida, cuando el jugador o la maquina elije el personaje secreto
+    public void setEleccion(Personaje eleccion) {
+        this.eleccion = eleccion;
+    }
+    //Cada subclase (persona o jugador) decide como arrma la jugada
     public abstract Jugada elegirJugada();
 
+    //Falta armar el de maquina entero, pero cada subclase decide como elegir el personaje, y va a llamar al setter de eleccion
+    public abstract void elegirPersonajeSecreto(List<Personaje> tablero);
 
     public String getNombre() { return nombre; }
     public Personaje getEleccion() { return eleccion; }

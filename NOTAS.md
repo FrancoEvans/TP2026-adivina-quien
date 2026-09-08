@@ -107,3 +107,54 @@ bitacora raw. cada entrada = un avance o decision. despues alimenta la bitacora 
 
 -`Juego` ya no es el main, ahora `Main` lo es
 - `Juego` representa el flujo del juego turno a turno
+- 
+## 2026-09-07 - parte 4: cambios y mejoras en la logica
+
+`ListaPersonajes`
+- agregue "Amarillo" al pool de coloresPelo. la consigna pide como filtros
+  obligatorios 3 colores de pelo especificos (colorado, negro, amarillo) 
+  faltaba amarillo en el pool.
+- agregue el metodo existeDuplicadoDeCaracteristicas(candidato), que recorre
+  los personajes ya generados y devuelve true si alguno tiene exactamente
+  las mismas caracteristicas que el candidato.
+- generarPersonajesAleatorios ahora chequea existeDuplicadoDeCaracteristicas
+  antes de agregar un personaje. si es duplicado, no se agrega y el while
+  vuelve a intentar (sin gastar el nombre ni el contador).
+  
+`Personaje`
+- agregue el metodo tieneMismasCaracteristicas(otro), que compara todos los
+  atributos del personaje excepto id y nombre.
+
+`Main`
+- complete la lista de preguntas jugables, una para cada atributo de Personaje
+
+`Jugador`
+- saque el objeto estrategia, que va a ser reemplazado por el metodo elegirJugada.
+  con esto cambie el constructor.
+- borre el metodo jugar que derivaba a estrategia.
+- Personaje eleccion dejo de ser final y de recibirse por constructor, ahora se
+  asigna con un setter.
+- agregue el metodo elegirPersonajeSecreto, y cada subclase define como elige su
+  personaje cuando arranca la partida.
+
+`JugadorHumano`
+- actualice el constructor acorde a Jugador.
+- elegirJugada() corregido el tipo de retorno de void a Jugada.
+- elegirPersonajeSecreto implementado. permite elegir por id o por nombre.
+
+`JugadorMaquina`
+- lo mismo que JugadorHumano.
+- la implementacion de elegirPersonajeSecreto es sorteando un indice con random,
+  y asignandolo con un setter.
+
+`Juego`
+- constructor actualizado.
+- en iniciar, agregue bucle while que pide que se elija el personaje secreto, si
+  este es null.
+- termino() devuelve true cuando hay un ganador.
+- arme la logica de jugarTurno. si es pregunta, se descartan candidatos con la
+  respuesta; si es arriesgue, se chequea si acerto y se define el ganador.
+
+**pendiente**
+`JugadorHumano` y `JugadorMaquina`
+- implementar elegirJugada() en ambas subclases

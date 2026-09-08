@@ -22,7 +22,7 @@ public class ListaPersonajes {
     };
     private static final String [] generos = {"Masculino", "Femenino"};
     private static final String [] rangosEtareos = {"Niño", "Joven", "Adulto"};
-    private static final String [] coloresPelo = {"Rubio", "Negro", "Colorado", "Canoso"};
+    private static final String [] coloresPelo = {"Rubio", "Negro", "Colorado", "Canoso", "Amarillo"};
     private static final String [] coloresPiel ={"Blanco", "Negro", "Morocho"};
     private static final String [] coloresOjo = {"Azul", "Celeste", "Marron", "Miel", "Verde", "Negro"};
     private static final String [] coloresRemera = {"Negro", "Blanco", "Violeta", "Rosa"};
@@ -53,33 +53,47 @@ public class ListaPersonajes {
             String nombre;
             if (genero.equals("Masculino")) {
                 nombre = masculinosDisponibles.get(indiceMasculino);
-                indiceMasculino++;
             } else {
                 nombre = femeninosDisponibles.get(indiceFemenino);
-                indiceFemenino++;
             }
             String rangoEtareo = elegirRandom(rangosEtareos);
             String colorPelo = elegirRandom(coloresPelo);
             String colorPiel = elegirRandom(coloresPiel);
             String colorOjo = elegirRandom(coloresOjo);
             String colorRemera = elegirRandom(coloresRemera);
-            String largoPelo= elegirRandom(largosPelo);
-            String tipoPelo= elegirRandom(tiposPelo);
+            String largoPelo = elegirRandom(largosPelo);
+            String tipoPelo = elegirRandom(tiposPelo);
             boolean tieneGorro = random.nextBoolean();
             boolean tieneLentes = random.nextBoolean();
             boolean tieneCollar = random.nextBoolean();
-            boolean tieneBigote = random.nextBoolean();
+            boolean tieneBarba = random.nextBoolean();
             boolean tienePelo = random.nextBoolean();
-            generados++;
 
-            Personaje nuevoPersonaje = new Personaje(generados, nombre, genero, rangoEtareo, colorPelo,
+            Personaje candidato = new Personaje(0, nombre, genero, rangoEtareo, colorPelo,
                     tieneGorro, colorPiel, tieneLentes, colorOjo,
-                    tieneCollar, colorRemera, tieneBigote, tienePelo,
+                    tieneCollar, colorRemera, tieneBarba, tienePelo,
                     largoPelo, tipoPelo
             );
-            this.personajes.add(nuevoPersonaje);
-        }
 
+            if (!existeDuplicadoDeCaracteristicas(candidato)) {
+                this.personajes.add(candidato);
+                if (genero.equals("Masculino")) {
+                    indiceMasculino++;
+                } else {
+                    indiceFemenino++;
+                }
+                generados++;
+            }
+        }
+    }
+
+    private boolean existeDuplicadoDeCaracteristicas(Personaje candidato) {
+        for (Personaje p : this.personajes) {
+            if (p.tieneMismasCaracteristicas(candidato)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     // reordena con mergesort y reasigna id autoincremental. se puede llamar varias veces
