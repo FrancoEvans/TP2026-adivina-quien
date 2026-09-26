@@ -15,6 +15,7 @@ public class JugadorMaquina extends Jugador {
     @Override
     public Jugada elegirJugada() {
         // algoritmo para elegir
+        return null;
     }
     @Override
     public void elegirPersonajeSecreto(List<Personaje> tablero) { //El random genera un indice, el setter de eleccion asigna con ese indice.

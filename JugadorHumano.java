@@ -14,6 +14,7 @@ public class JugadorHumano extends Jugador {
 
     @Override //Agreguen los override cuando sobreescriban algo q es buena practica wachines vamos a sacarnos el 10
     public Jugada elegirJugada() {
+        return null;
     }
 
     @Override

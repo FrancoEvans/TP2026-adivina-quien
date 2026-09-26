@@ -6,7 +6,7 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
         ListaPersonajes lista = new ListaPersonajes();
-        lista.generarPersonajes(23);
+        lista.generarPersonajesAleatorios(23);
 
         Jugador a = new JugadorHumano("Jugador", lista.getPersonajes());
         Jugador b = new JugadorMaquina("Maquina", lista.getPersonajes());
