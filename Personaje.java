@@ -156,6 +156,5 @@ public class Personaje {
                 ", tipoPelo='" + tipoPelo + '\'' +
                 '}';
     }
-
 }
 

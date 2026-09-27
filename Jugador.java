@@ -10,11 +10,14 @@ public abstract class Jugador {
     private final String nombre;
     private Personaje eleccion;  // su personaje secreto
     private final List<Personaje> candidatos; // los que le quedan del rival
+    private final List<Pregunta> preguntasDisponibles; // las que todavia no gasto
+
 
     // la eleccion del personaje secreto todavia no se conoce al crear el jugador, se agrega despues con un setter
-    public Jugador(String nombre, List<Personaje> tablero) {
+    public Jugador(String nombre, List<Personaje> tablero, List<Pregunta> preguntas) {
         this.nombre = nombre;
         this.candidatos = new ArrayList<>(tablero);
+        this.preguntasDisponibles = new ArrayList<>(preguntas);
     }
 
     // el rival consulta pregunta y arriesga a traves de aca
@@ -31,6 +34,16 @@ public abstract class Jugador {
         List<Personaje> quedan = Logica.filtrar(candidatos, pregunta, respuesta);
         candidatos.clear();
         candidatos.addAll(quedan);
+
+        if (respuesta) {
+            List<Pregunta> aEliminar = new ArrayList<>();
+            for (Pregunta p : preguntasDisponibles) {
+                if (p.getAtributo().equals(pregunta.getAtributo())) {
+                    aEliminar.add(p);
+                }
+            }
+            preguntasDisponibles.removeAll(aEliminar);
+        }
     }
 
     // ya lo tiene identificado
@@ -50,4 +63,5 @@ public abstract class Jugador {
     public String getNombre() { return nombre; }
     public Personaje getEleccion() { return eleccion; }
     public List<Personaje> getCandidatos() { return candidatos; }
+    public List<Pregunta> getPreguntasDisponibles() { return preguntasDisponibles; }
 }

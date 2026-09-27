@@ -50,17 +50,28 @@ public class Juego {
         Jugada jugada = turnoActual.elegirJugada();
 
         if (jugada.esPregunta()) {
-            boolean respuesta = rival.responderPregunta(jugada.getPregunta());
-            turnoActual.descartar(jugada.getPregunta(), respuesta);
+            Pregunta pregunta = jugada.getPregunta();
+            boolean respuesta = rival.responderPregunta(pregunta);
+            System.out.println(turnoActual.getNombre() + " pregunta: " + pregunta.getTexto()
+                    + " -> " + (respuesta ? "Si" : "No"));
+            turnoActual.descartar(pregunta, respuesta);
+
+            System.out.println("Le quedan " + turnoActual.getCandidatos().size() + " candidatos:");
+            for (Personaje p : turnoActual.getCandidatos()) {
+                System.out.println("  " + p.getId() + "-" + p.getNombre());
+            }
         } else {
             //Cuando el jugador arriesgo
-            boolean acierto = rival.responderSuposicion(jugada.getPersonaje());
+            Personaje arriesgado = jugada.getPersonaje();
+            boolean acierto = rival.responderSuposicion(arriesgado);
+            System.out.println(turnoActual.getNombre() + " arriesga a " + arriesgado.getNombre()
+                    + " -> " + (acierto ? "Si" : "No"));
             if (acierto) {
                 ganador = turnoActual;
             }
+            // puede arriesgar las veces que quiera, solo pierde el turno, igual que si hubiera preguntado
         }
-
-        turno ++;
+        turno++;
         turnoActual = rival;
     }
 
@@ -68,5 +79,7 @@ public class Juego {
         // devuelve si la partida ya termino
         return ganador != null;
     }
-
+    public Jugador getGanador() {
+        return ganador;
+    }
 }

@@ -2,23 +2,72 @@ package TP;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        ListaPersonajes lista = new ListaPersonajes();
-        lista.generarPersonajesAleatorios(23);
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Elegí un modo:");
+        System.out.println("1. Jugador vs Maquina");
+        System.out.println("2. Maquina vs Maquina");
+        System.out.print("Eleccion: ");
+        int opcion = scanner.nextInt();
 
-        Jugador a = new JugadorHumano("Jugador", lista.getPersonajes());
-        Jugador b = new JugadorMaquina("Maquina", lista.getPersonajes());
-        Jugador c = new JugadorMaquina("Maquina", lista.getPersonajes());
+        while (opcion != 1 && opcion != 2) {
+            System.out.println("Ingrese una opción valida.");
+            System.out.print("Eleccion: ");
+            opcion = scanner.nextInt();
+        }
+        if (opcion == 1) {
+            jugarHumanoVsMaquina();
+        } else {
+            jugarMaquinaVsMaquina();
+        }
+    }
 
+    private static void jugarHumanoVsMaquina() {
+        ListaPersonajes lista = armarTablero();
+        List<Pregunta> preguntas = armarPreguntas();
+
+        Jugador a = new JugadorHumano("Jugador", lista.getPersonajes(), preguntas);
+        Jugador b = new JugadorMaquina("Maquina", lista.getPersonajes(), preguntas);
+
+        correrPartida(a, b, lista);
+    }
+
+    private static void jugarMaquinaVsMaquina() {
+        ListaPersonajes lista = armarTablero();
+        List<Pregunta> preguntas = armarPreguntas();
+
+        JugadorMaquina a = new JugadorMaquina("Maquina A", lista.getPersonajes(), preguntas);
+        JugadorMaquina b = new JugadorMaquina("Maquina B", lista.getPersonajes(), preguntas);
+        a.setMostrarRazonamiento(true);
+        b.setMostrarRazonamiento(true);
+
+        correrPartida(a, b, lista);
+    }
+
+    private static void correrPartida(Jugador a, Jugador b, ListaPersonajes lista) {
         Juego juego = new Juego(a, b);
         juego.iniciar(lista.getPersonajes());
 
+        while (!juego.termino()) {
+            juego.jugarTurno();
+        }
+
+        System.out.println("Ganó: " + juego.getGanador().getNombre());
+    }
+
+    private static ListaPersonajes armarTablero() {
+        ListaPersonajes lista = new ListaPersonajes();
+        lista.generarPersonajesAleatorios(23);
         // la maquina los dispone: ordena por genero, id autoincremental
         lista.ordenar(Criterios.porGenero());
         lista.mostrarLista();
+        return lista;
+    }
 
+    private static List<Pregunta> armarPreguntas() {
         List<Pregunta> preguntas = new ArrayList<>();
         preguntas.add(new Pregunta("Es de genero femenino?", "genero", "Femenino"));
 
@@ -66,5 +115,6 @@ public class Main {
 
         preguntas.add(new Pregunta("Tiene barba?", "tieneBarba", "true"));
 
+        return preguntas;
     }
 }
