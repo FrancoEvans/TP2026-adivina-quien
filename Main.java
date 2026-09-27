@@ -30,7 +30,8 @@ public class Main {
         a.setMostrarRazonamiento(true);
         b.setMostrarRazonamiento(true);
 
-        correrPartida(a, b, lista);
+        Juego juego= new Juego(a, b);
+        SwingUtilities.invokeLater(() -> new PantallaMaquinaVsMaquina(juego, lista.getPersonajes()).setVisible(true));
     }
 
     private static Jugador correrPartida(Jugador a, Jugador b, ListaPersonajes lista) {

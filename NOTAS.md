@@ -217,3 +217,42 @@ para elegir la modalidad del juego
   cuando Greedy NO es optimo, Big O de la app, algoritmos no aplicados.
 - caso limite sin cubrir: si se agotan las preguntas antes de llegar a 1 solo
   candidato, JugadorMaquina.elegirJugada() devolveria una pregunta null.
+
+## 2026-09-27 - parte 7: Interfaz de los dos modos
+
+**la idea general**
+- si el juego se queda esperando que el humano toque un boton, la ventana se congela.
+  solucion: dos "empleados". el de la ventanilla (EDT de Swing) solo atiende clicks y
+  dibuja. el de atras (un hilo aparte) corre la partida. se pasan la jugada con una caja
+  (`BlockingQueue`): el boton la deja (`offer`) y el hilo del juego la agarra (`take`).
+- regla de oro: la ventana solo la toca el EDT. desde el hilo del juego se usa
+  `SwingUtilities.invokeLater(...)`.
+- regla para decidir: si algo ESPERA (a una persona), va en otro hilo. si es una cuenta
+  rapida, puede ir en el EDT.
+
+**clases nuevas**
+- `PantallaJuego` -> modo Jugador vs Maquina.
+  - primer click en un personaje = tu secreto.
+  - en tu turno elegis una pregunta de la lista y tocas "Preguntar", o haces click en un
+    personaje para arriesgar.
+  - los descartados se ponen grises y la lista de preguntas se actualiza.
+  - al final muestra quien gano.
+- `PantallaMaquinaVsMaquina` -> modo Maquina vs Maquina. boton "Siguiente turno" que
+  juega de a un turno, y en el registro se ve el razonamiento de cada maquina.
+  aca NO hace falta hilo aparte: no hay humano al que esperar, cada turno es instantaneo.
+- `RegistroPartida` -> el cuadro "Partida" de abajo. desvia los `System.out.println` a la
+  ventana, asi no hubo que tocar `Juego` ni `JugadorMaquina`. la usan las dos pantallas.
+
+**cambios en clases existentes**
+- `JugadorHumano` -> ya no usa `Scanner`. recibe la jugada y el secreto desde la ventana
+  por dos colas. antes de esperar le avisa a la pantalla que es su turno (`teToca()`).
+- `Main` -> `main()` abre `VentanaInicio` (se saco el menu por consola).
+  `jugarMaquinaVsMaquina()` ya no tiene loop: arma el `Juego` y se lo pasa a la pantalla.
+  `correrPartida()` devuelve el ganador.
+- `VentanaInicio` -> valida nombre vacio, arranca cada modo y se cierra.
+- `.gitignore` -> se agrego `.idea/`, `*.iml` y `out/`.
+
+**pendiente**
+- UML con las clases de la interfaz.
+- informe: seccion de la interfaz.
+- opcional: tableros en maquina vs maquina, boton "jugar de nuevo".

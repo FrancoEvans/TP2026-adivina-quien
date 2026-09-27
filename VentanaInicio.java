@@ -51,7 +51,7 @@ public class VentanaInicio extends JFrame {
         botonMaqVsMaq.setEnabled(false);
         System.out.println("Arranca " + nombre + " vs Maquina");
         new Thread(()-> Main.jugarHumanoVsMaquina(nombre)).start();
-
+        dispose(); // cierra esta ventana, la partida se abre en otra
     }
 
     private void iniciarMaquinaVsMaquina() {
@@ -59,7 +59,7 @@ public class VentanaInicio extends JFrame {
         botonVsMaquina.setEnabled(false);
         botonMaqVsMaq.setEnabled(false);
         new Thread(()-> Main.jugarMaquinaVsMaquina()).start();
-
+        dispose(); // cierra esta ventana, la partida se abre en otra
     }
 
 

@@ -2,10 +2,6 @@ package TP;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +15,6 @@ public class PantallaJuego extends JFrame {
     private final DefaultListModel<Pregunta> modeloPreguntas = new DefaultListModel<>();
     private final JList<Pregunta> listaPreguntas = new JList<>(modeloPreguntas);
     private final JButton botonPreguntar = new JButton("Preguntar");
-    private final JTextArea log = new JTextArea(8, 0);
 
     private boolean eligiendoSecreto = true; // al principio los clicks eligen el secreto
     private boolean miTurno = false;
@@ -62,14 +57,7 @@ public class PantallaJuego extends JFrame {
         add(panelPreguntas, BorderLayout.EAST);
 
         // abajo: el registro de la partida (lo que antes salia por consola)
-        log.setEditable(false);
-        log.setFont(new Font("Monospaced", Font.PLAIN, 13));
-        JScrollPane scrollLog = new JScrollPane(log);
-        scrollLog.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createEmptyBorder(0, 10, 10, 10),
-                BorderFactory.createTitledBorder("Partida")));
-        add(scrollLog, BorderLayout.SOUTH);
-        redirigirConsola();
+        add(new RegistroPartida(), BorderLayout.SOUTH);
 
         listaPreguntas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         botonPreguntar.setEnabled(false); // hasta que sea mi turno
@@ -144,27 +132,6 @@ public class PantallaJuego extends JFrame {
         }
         estado.setText(mensaje);
         JOptionPane.showMessageDialog(this, mensaje);
-    }
-
-    // todo lo que se imprima con System.out.println aparece en el area de abajo
-    private void redirigirConsola() {
-        OutputStream haciaElLog = new OutputStream() {
-            private final ByteArrayOutputStream linea = new ByteArrayOutputStream();
-
-            @Override
-            public void write(int b) {
-                linea.write(b);           // junta caracteres...
-                if (b == '\n') {          // ...hasta completar una linea
-                    String texto = linea.toString(StandardCharsets.UTF_8);
-                    linea.reset();
-                    SwingUtilities.invokeLater(() -> {
-                        log.append(texto);
-                        log.setCaretPosition(log.getDocument().getLength()); // baja solo
-                    });
-                }
-            }
-        };
-        System.setOut(new PrintStream(haciaElLog, true, StandardCharsets.UTF_8));
     }
 
     private String descripcion(Personaje p) {
