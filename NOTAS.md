@@ -256,3 +256,43 @@ para elegir la modalidad del juego
 - UML con las clases de la interfaz.
 - informe: seccion de la interfaz.
 - opcional: tableros en maquina vs maquina, boton "jugar de nuevo".
+- 
+## 2026-09-27 - parte 8: detalles de codigo + boton jugar de nuevo
+
+`Juego`
+- borre el comentario desactualizado "por hacer: - logica de turnos" del
+  encabezado del archivo, ya estaba resuelta hace rato.
+
+`Jugador`
+- actualice el comentario de elegirPersonajeSecreto, ya no dice "falta armar
+  el de maquina" (JugadorMaquina ya lo tiene implementado).
+
+`Personaje`
+- corregi la etiqueta "tieneBigote=" por "tieneBarba=" en toString(). el
+  campo real siempre fue tieneBarba, el texto de debug decia mal.
+
+`JugadorMaquina`
+- elegirJugada(): agregue el chequeo `if (mejorPregunta == null) return
+  Jugada.arriesgar(getCandidatos().get(0));` antes de usar mejorPregunta.
+  cubre el caso limite de que se agoten las preguntasDisponibles antes de
+  llegar a 1 solo candidato (antes devolvia Jugada.preguntar(null) y
+  explotaba mas adelante con NullPointerException).
+
+`PantallaJuego`
+- en finDePartida(), agregue un dialogo "Jugar de nuevo?" al final. si dice
+  que si, cierra la ventana (dispose()) y arranca Main.jugarHumanoVsMaquina()
+  de nuevo en un hilo aparte (porque ese metodo se queda esperando al humano
+  en cada turno, llamarlo directo congelaria la ventana).
+
+`PantallaMaquinaVsMaquina`
+- mismo dialogo "Jugar de nuevo?" al terminar la partida. si dice que si,
+  cierra la ventana y llama a Main.jugarMaquinaVsMaquina() directo, sin hilo
+  aparte (no espera a nadie, solo arma el tablero y programa la ventana
+  nueva con invokeLater). 
+
+**pendiente**
+- UML con las clases de la interfaz.
+- informe final: justificar MergeSort vs QuickSort, explicar el Greedy,
+  cuando Greedy NO es optimo, Big O de la app, algoritmos no aplicados,
+  y justificacion de SOLID (Open/Closed y Liskov en el diseño de Jugador). 
+- agregar tableros visuales al modo Maquina vs Maquina (opcional)
