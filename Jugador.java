@@ -57,7 +57,7 @@ public abstract class Jugador {
     //Cada subclase (persona o jugador) decide como arrma la jugada
     public abstract Jugada elegirJugada();
 
-    //Falta armar el de maquina entero, pero cada subclase decide como elegir el personaje, y va a llamar al setter de eleccion
+    // cada subclase decide como elegir el personaje, y llama al setter de eleccion
     public abstract void elegirPersonajeSecreto(List<Personaje> tablero);
 
     public String getNombre() { return nombre; }

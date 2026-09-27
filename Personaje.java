@@ -150,7 +150,7 @@ public class Personaje {
                 ", colorOjos='" + colorOjos + '\'' +
                 ", tieneCollar=" + tieneCollar +
                 ", colorRemera='" + colorRemera + '\'' +
-                ", tieneBigote=" + tieneBarba +
+                ", tieneBarba=" + tieneBarba +
                 ", tienePelo=" + tienePelo +
                 ", largoPelo='" + largoPelo + '\'' +
                 ", tipoPelo='" + tipoPelo + '\'' +

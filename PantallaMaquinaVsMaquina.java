@@ -44,6 +44,12 @@ public class PantallaMaquinaVsMaquina extends JFrame {
         if (juego.termino()) {
             botonSiguiente.setEnabled(false);
             System.out.println("Ganó " + juego.getGanador().getNombre() + " en " + turno + " turnos");
+
+            int r = JOptionPane.showConfirmDialog(this, "¿Jugar de nuevo?", "Jugar de nuevo", JOptionPane.YES_NO_OPTION);
+            if (r == JOptionPane.YES_OPTION) {
+                dispose();
+                Main.jugarMaquinaVsMaquina();
+            }
         }
     }
 }

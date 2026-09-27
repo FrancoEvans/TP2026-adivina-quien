@@ -45,6 +45,10 @@ public class JugadorMaquina extends Jugador {
             }
         }
 
+        if (mejorPregunta == null) {
+            return Jugada.arriesgar(getCandidatos().get(0));
+        }
+
         if (mostrarRazonamiento) {
             System.out.println(getNombre() + " elige: " + mejorPregunta.getTexto()
                     + " (diferencia " + mejorDiferencia + ")");

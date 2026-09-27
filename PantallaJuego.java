@@ -131,7 +131,13 @@ public class PantallaJuego extends JFrame {
             mensaje = "Ganó la maquina. Era " + secretoRival.getNombre();
         }
         estado.setText(mensaje);
+
         JOptionPane.showMessageDialog(this, mensaje);
+        int r = JOptionPane.showConfirmDialog(this, "¿Jugar de nuevo?", "Jugar de nuevo", JOptionPane.YES_NO_OPTION);
+        if (r == JOptionPane.YES_OPTION) {
+            dispose();
+            new Thread(() -> Main.jugarHumanoVsMaquina(humano.getNombre())).start();
+        }
     }
 
     private String descripcion(Personaje p) {

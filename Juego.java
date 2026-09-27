@@ -2,11 +2,6 @@ package TP;
 
 import java.util.ArrayList;
 import java.util.List;
-
-
-// por hacer:
-//  - logica de turnos
-
 public class Juego {
     private Jugador jugadorA;
     private Jugador jugadorB;
