@@ -159,7 +159,26 @@ bitacora raw. cada entrada = un avance o decision. despues alimenta la bitacora 
 `JugadorHumano` y `JugadorMaquina`
 - implementar elegirJugada() en ambas subclases
 
-## 2026-09-27 - parte 5: logica terminada, maquina vs maquina hecho
+## 2026-09-26 - parte 5: Correccion de errores, implementacion de interfaz
+
+
+- `Main` -> llamaba a `lista.generarPersonajes(23)`, que no existe. el metodo se llama
+  `generarPersonajesAleatorios(23)`. corregido el nombre.
+- `JugadorHumano` -> `elegirJugada()` declara que devuelve `Jugada` pero no tenia `return`.
+  se agrego `return null;` provisorio hasta conectarlo con la interfaz.
+- `JugadorMaquina` -> mismo problema que `JugadorHumano`. `return null;` provisorio hasta
+  que este el algoritmo greedy.
+- `VentanaInicio`-> Nueva interfaz grafica, es la pantalla que aparece apenas abris el juego.
+ventana comun, hereda de `JFrame`
+- Tiene el titulo del juego, y abajo un espacio para poner el nombre del jugador, mas 2 botones
+para elegir la modalidad del juego
+
+**pendiente**
+-Terminar la logica el juego
+- Implementar las interfaces que ya debern utilizar la logica
+
+
+## 2026-09-27 - parte 6: logica terminada, maquina vs maquina hecho
 
 `Juego`
 - jugarTurno() ahora imprime la pregunta/arriesgue y la respuesta (Si/No), y
