@@ -13,10 +13,12 @@ public class Main {
         ListaPersonajes lista = armarTablero();
         List<Pregunta> preguntas = armarPreguntas();
 
-        Jugador a = new JugadorHumano(nombre, lista.getPersonajes(), preguntas);
+        JugadorHumano a = new JugadorHumano(nombre, lista.getPersonajes(), preguntas);
         Jugador b = new JugadorMaquina("Maquina", lista.getPersonajes(), preguntas);
 
-        correrPartida(a, b, lista);
+        SwingUtilities.invokeLater(() -> new PantallaJuego(a, lista.getPersonajes()).setVisible(true));
+        Jugador ganador=correrPartida(a, b, lista);
+        a.avisarFin(ganador, b.getEleccion());
     }
 
     static void jugarMaquinaVsMaquina() {
@@ -31,7 +33,7 @@ public class Main {
         correrPartida(a, b, lista);
     }
 
-    private static void correrPartida(Jugador a, Jugador b, ListaPersonajes lista) {
+    private static Jugador correrPartida(Jugador a, Jugador b, ListaPersonajes lista) {
         Juego juego = new Juego(a, b);
         juego.iniciar(lista.getPersonajes());
 
@@ -40,7 +42,9 @@ public class Main {
         }
 
         System.out.println("Ganó: " + juego.getGanador().getNombre());
+        return juego.getGanador();
     }
+
 
     private static ListaPersonajes armarTablero() {
         ListaPersonajes lista = new ListaPersonajes();

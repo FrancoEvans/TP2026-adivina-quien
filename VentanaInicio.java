@@ -7,6 +7,8 @@ import java.awt.*;
 public class VentanaInicio extends JFrame {
 
     private final JTextField campoNombre;
+    private final JButton botonVsMaquina;
+    private final JButton botonMaqVsMaq;
 
     public VentanaInicio() {
         super("Adivina Quien");
@@ -25,8 +27,8 @@ public class VentanaInicio extends JFrame {
         centro.setBorder(BorderFactory.createEmptyBorder(10, 60, 20, 60)); // margen
 
         campoNombre = new JTextField("Jugador");
-        JButton botonVsMaquina = new JButton("Jugador vs Maquina");
-        JButton botonMaqVsMaq = new JButton("Maquina vs Maquina");
+        botonVsMaquina = new JButton("Jugador vs Maquina");
+        botonMaqVsMaq = new JButton("Maquina vs Maquina");
 
         centro.add(new JLabel("Tu nombre:"));
         centro.add(campoNombre);
@@ -41,12 +43,22 @@ public class VentanaInicio extends JFrame {
 
     private void iniciarVsMaquina() {
         String nombre = campoNombre.getText().trim();
+        if (nombre.isEmpty()){
+            JOptionPane.showMessageDialog(this, "Ingresa tu nombre para jugar");
+            return;
+        }
+        botonVsMaquina.setEnabled(false);
+        botonMaqVsMaq.setEnabled(false);
         System.out.println("Arranca " + nombre + " vs Maquina");
+        new Thread(()-> Main.jugarHumanoVsMaquina(nombre)).start();
 
     }
 
     private void iniciarMaquinaVsMaquina() {
         System.out.println("Arranca Maquina vs Maquina");
+        botonVsMaquina.setEnabled(false);
+        botonMaqVsMaq.setEnabled(false);
+        new Thread(()-> Main.jugarMaquinaVsMaquina()).start();
 
     }
 
