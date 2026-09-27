@@ -158,3 +158,43 @@ bitacora raw. cada entrada = un avance o decision. despues alimenta la bitacora 
 **pendiente**
 `JugadorHumano` y `JugadorMaquina`
 - implementar elegirJugada() en ambas subclases
+
+## 2026-09-27 - parte 5: logica terminada, maquina vs maquina hecho
+
+`Juego`
+- jugarTurno() ahora imprime la pregunta/arriesgue y la respuesta (Si/No), y
+  los candidatos restantes despues de cada pregunta (para los dos jugadores).
+- agregue comentario explicito con la regla: arriesgar mal no tiene penalidad
+  extra, solo pierde el turno, igual que si hubiera preguntado. puede arriesgar
+  las veces que quiera
+
+`Jugador`
+- descartar(pregunta, respuesta): cuando la respuesta es "si", ademas de
+  filtrar candidatos, saco de preguntasDisponibles todas las demas preguntas
+  sobre el mismo atributo (mismo getAtributo())
+
+`JugadorMaquina`
+- agregue mostrarRazonamiento (boolean, default false) + setter. adentro de
+  elegirJugada(), si esta activado, imprime por cada pregunta evaluada
+  cantidadSi/cantidadNo/diferencia, y al final cual eligio y por que.
+- en false por defecto: el modo Jugador vs Maquina no cambia, solo se
+  activa el detalle en el modo que la consigna pide poder presenciar.
+
+`Main`
+- Saque armarTablero() y armarPreguntas() a metodos compartidos, para no
+  repetir ese codigo en los dos modos de juego.
+- arme jugarHumanoVsMaquina(), jugarMaquinaVsMaquina() (con dos JugadorMaquina
+  y mostrarRazonamiento en true) y correrPartida() (compartido: crear Juego,
+  iniciar, loop de turnos, mostrar ganador).
+- agregue un menu por consola en main() que pregunta que modo jugar (1 o 2)
+- agregue el while (!juego.termino()) que llama a jugarTurno() hasta terminar.
+
+
+**pendiente**
+- decidir que hacer con VentanaInicio.java: sigue siendo un esqueleto Swing
+  desconectado de la logica real, con su propio main() aparte.
+- UML desactualizado (cambio mucho con el pase a herencia).
+- informe final: justificar MergeSort vs QuickSort, explicar el Greedy,
+  cuando Greedy NO es optimo, Big O de la app, algoritmos no aplicados.
+- caso limite sin cubrir: si se agotan las preguntas antes de llegar a 1 solo
+  candidato, JugadorMaquina.elegirJugada() devolveria una pregunta null.
