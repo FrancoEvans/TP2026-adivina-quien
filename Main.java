@@ -2,40 +2,24 @@ package TP;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
+import javax.swing.*;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Elegí un modo:");
-        System.out.println("1. Jugador vs Maquina");
-        System.out.println("2. Maquina vs Maquina");
-        System.out.print("Eleccion: ");
-        int opcion = scanner.nextInt();
-
-        while (opcion != 1 && opcion != 2) {
-            System.out.println("Ingrese una opción valida.");
-            System.out.print("Eleccion: ");
-            opcion = scanner.nextInt();
-        }
-        if (opcion == 1) {
-            jugarHumanoVsMaquina();
-        } else {
-            jugarMaquinaVsMaquina();
-        }
+        SwingUtilities.invokeLater(() -> new VentanaInicio().setVisible(true));
     }
 
-    private static void jugarHumanoVsMaquina() {
+    static void jugarHumanoVsMaquina(String nombre) {
         ListaPersonajes lista = armarTablero();
         List<Pregunta> preguntas = armarPreguntas();
 
-        Jugador a = new JugadorHumano("Jugador", lista.getPersonajes(), preguntas);
+        Jugador a = new JugadorHumano(nombre, lista.getPersonajes(), preguntas);
         Jugador b = new JugadorMaquina("Maquina", lista.getPersonajes(), preguntas);
 
         correrPartida(a, b, lista);
     }
 
-    private static void jugarMaquinaVsMaquina() {
+    static void jugarMaquinaVsMaquina() {
         ListaPersonajes lista = armarTablero();
         List<Pregunta> preguntas = armarPreguntas();
 
