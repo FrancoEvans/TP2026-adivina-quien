@@ -10,6 +10,7 @@ import TP.Modelo.Pregunta;
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,8 +20,9 @@ public class PantallaJuego extends JFrame {
     private final JugadorHumano humano;
     private final JLabel estado;
     private final Map<Personaje, JButton> botones = new HashMap<>(); // cada personaje con su boton
-    private final DefaultListModel<Pregunta> modeloPreguntas = new DefaultListModel<>();
-    private final JList<Pregunta> listaPreguntas = new JList<>(modeloPreguntas);
+    // la lista mezcla titulos de categoria (String) y preguntas (Pregunta)
+    private final DefaultListModel<Object> modeloPreguntas = new DefaultListModel<>();
+    private final JList<Object> listaPreguntas = new JList<>(modeloPreguntas);
     private final JButton botonPreguntar = new JButton("Preguntar");
 
     private boolean eligiendoSecreto = true; // al principio los clicks eligen el secreto
@@ -46,7 +48,9 @@ public class PantallaJuego extends JFrame {
         JPanel grilla = new JPanel(new GridLayout(0, 6, 5, 5)); // 6 columnas, las filas que hagan falta
         grilla.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 0));
         for (Personaje p : tablero) {
-            JButton boton = new JButton("<html><center>" + p.getId() + "<br>" + p.getNombre() + "</center></html>");
+            JButton boton = new JButton(p.getId() + " - " + p.getNombre(), AvatarRenderer.icono(p, 96));
+            boton.setVerticalTextPosition(SwingConstants.BOTTOM); // nombre debajo de la cara
+            boton.setHorizontalTextPosition(SwingConstants.CENTER);
             boton.setToolTipText(descripcion(p)); // al pasar el mouse muestra sus caracteristicas
             boton.addActionListener(e -> clickPersonaje(p));
             grilla.add(boton);
@@ -67,6 +71,12 @@ public class PantallaJuego extends JFrame {
         add(new RegistroPartida(), BorderLayout.SOUTH);
 
         listaPreguntas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        listaPreguntas.setCellRenderer(new RendererPreguntas());
+        listaPreguntas.addListSelectionListener(e -> {
+            if (listaPreguntas.getSelectedValue() instanceof String) { // los titulos no se pueden elegir
+                listaPreguntas.clearSelection();
+            }
+        });
         botonPreguntar.setEnabled(false); // hasta que sea mi turno
         botonPreguntar.addActionListener(e -> clickPreguntar());
     }
@@ -76,10 +86,21 @@ public class PantallaJuego extends JFrame {
         miTurno = true;
         estado.setText("Tu turno: elegí una pregunta, o hacé click en un personaje para arriesgar");
 
-        // refresca las preguntas que le quedan
-        modeloPreguntas.clear();
+        // refresca las preguntas que le quedan, agrupadas por categoria
+        Map<String, List<Pregunta>> porCategoria = new LinkedHashMap<>();
+        for (String categoria : ORDEN_CATEGORIAS) {
+            porCategoria.put(categoria, new java.util.ArrayList<>());
+        }
         for (Pregunta p : humano.getPreguntasDisponibles()) {
-            modeloPreguntas.addElement(p);
+            porCategoria.get(categoria(p)).add(p);
+        }
+        modeloPreguntas.clear();
+        for (Map.Entry<String, List<Pregunta>> grupo : porCategoria.entrySet()) {
+            if (grupo.getValue().isEmpty()) continue; // categoria sin preguntas: no se muestra
+            modeloPreguntas.addElement(grupo.getKey());
+            for (Pregunta p : grupo.getValue()) {
+                modeloPreguntas.addElement(p);
+            }
         }
 
         // apaga los personajes que ya descarto
@@ -92,11 +113,12 @@ public class PantallaJuego extends JFrame {
     }
 
     private void clickPreguntar() {
-        Pregunta elegida = listaPreguntas.getSelectedValue();
-        if (elegida == null) {
+        Object seleccion = listaPreguntas.getSelectedValue();
+        if (!(seleccion instanceof Pregunta)) {
             JOptionPane.showMessageDialog(this, "Elegí una pregunta de la lista");
             return;
         }
+        Pregunta elegida = (Pregunta) seleccion;
         terminarMiTurno();
         humano.enviarJugada(Jugada.preguntar(elegida));
     }
@@ -154,11 +176,50 @@ public class PantallaJuego extends JFrame {
                 + "Piel: " + p.getColorPiel() + " - Ojos: " + p.getColorOjos() + "<br>"
                 + "Remera: " + p.getColorRemera() + "<br>"
                 + "Gorro: " + siNo(p.isTieneGorro()) + " - Lentes: " + siNo(p.isTieneLentes())
-                + " - Collar: " + siNo(p.isTieneCollar()) + " - Barba: " + siNo(p.isTieneBarba())
+                + " - Collar: " + siNo(p.isTieneCollar()) + " - Barba: " + siNo(p.isTieneBarba()) + " - Labial: " + siNo(p.isTieneLabial())
                 + "</html>";
     }
 
     private String siNo(boolean b) {
         return b ? "Si" : "No";
+    }
+
+    private static final String[] ORDEN_CATEGORIAS = {"Genero", "Edad", "Pelo", "Cara", "Ropa", "Accesorios"};
+
+    // a que categoria pertenece cada pregunta, segun el atributo que consulta
+    private static String categoria(Pregunta p) {
+        switch (p.getAtributo()) {
+            case "genero":
+                return "Genero";
+            case "rangoEteareo":
+                return "Edad";
+            case "colorPelo": case "largoPelo": case "tipoPelo": case "tienePelo":
+                return "Pelo";
+            case "colorPiel": case "colorOjos": case "tieneBarba": case "tieneLabial":
+                return "Cara";
+            case "colorRemera":
+                return "Ropa";
+            default: // gorro, lentes, collar
+                return "Accesorios";
+        }
+    }
+
+    // dibuja los titulos de categoria como encabezado y las preguntas con sangria
+    private static class RendererPreguntas extends DefaultListCellRenderer {
+        @Override
+        public Component getListCellRendererComponent(JList<?> lista, Object valor, int indice,
+                                                      boolean seleccionado, boolean foco) {
+            if (valor instanceof String) {
+                JLabel titulo = (JLabel) super.getListCellRendererComponent(lista, valor, indice, false, false);
+                titulo.setFont(titulo.getFont().deriveFont(Font.BOLD));
+                titulo.setOpaque(true);
+                titulo.setBackground(new Color(0xDCE6F2));
+                titulo.setBorder(BorderFactory.createEmptyBorder(6, 6, 4, 6));
+                return titulo;
+            }
+            JLabel item = (JLabel) super.getListCellRendererComponent(lista, valor, indice, seleccionado, foco);
+            item.setBorder(BorderFactory.createEmptyBorder(2, 20, 2, 6));
+            return item;
+        }
     }
 }

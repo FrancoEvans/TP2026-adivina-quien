@@ -15,17 +15,18 @@ public class Personaje {
     private final boolean tieneCollar;
     private final String colorRemera;
     private final boolean tieneBarba;
+    private final boolean tieneLabial;
     private final boolean tienePelo;
     private final String largoPelo;
     private final String tipoPelo;
     private final Map<String, String> atributos = new LinkedHashMap<>();
 
 
-    public Personaje( int id,String nombre, String genero, String rangoEteareo, String colorPelo, boolean tieneGorro, String colorPiel, boolean tieneLentes, String colorOjos, boolean tieneCollar, String colorRemera, boolean tieneBarba, boolean tienePelo, String largoPelo, String tipoPelo) {
-        this.tienePelo = tienePelo;
-        this.largoPelo = tienePelo ? largoPelo : "N/A";
-        this.tipoPelo = tienePelo ? tipoPelo : "N/A";
-        this.colorPelo = tienePelo ? colorPelo : "N/A";
+    public Personaje( int id,String nombre, String genero, String rangoEteareo, String colorPelo, boolean tieneGorro, String colorPiel, boolean tieneLentes, String colorOjos, boolean tieneCollar, String colorRemera, boolean tieneBarba, boolean tieneLabial, boolean tienePelo, String largoPelo, String tipoPelo) {
+        this.tienePelo = genero.equals("Femenino") || tienePelo; // no hay mujeres peladas
+        this.largoPelo = this.tienePelo ? largoPelo : "N/A";
+        this.tipoPelo = this.tienePelo ? tipoPelo : "N/A";
+        this.colorPelo = this.tienePelo ? colorPelo : "N/A";
         this.id = id;
         this.nombre = nombre;
         this.genero = genero;
@@ -36,7 +37,8 @@ public class Personaje {
         this.colorOjos = colorOjos;
         this.tieneCollar = tieneCollar;
         this.colorRemera = colorRemera;
-        this.tieneBarba = tieneBarba;
+        this.tieneBarba = genero.equals("Masculino") && !rangoEteareo.equals("Niño") && tieneBarba;
+        this.tieneLabial = genero.equals("Femenino") && tieneLabial;
 
         atributos.put("genero", genero);
         atributos.put("rangoEteareo", rangoEteareo);
@@ -46,11 +48,12 @@ public class Personaje {
         atributos.put("colorPiel", colorPiel);
         atributos.put("colorOjos", colorOjos);
         atributos.put("colorRemera", colorRemera);
-        atributos.put("tienePelo", String.valueOf(tienePelo));
+        atributos.put("tienePelo", String.valueOf(this.tienePelo));
         atributos.put("tieneGorro", String.valueOf(tieneGorro));
         atributos.put("tieneLentes", String.valueOf(tieneLentes));
         atributos.put("tieneCollar", String.valueOf(tieneCollar));
-        atributos.put("tieneBarba", String.valueOf(tieneBarba));
+        atributos.put("tieneBarba", String.valueOf(this.tieneBarba));
+        atributos.put("tieneLabial", String.valueOf(this.tieneLabial));
     }
 
     public int getId() {
@@ -105,6 +108,10 @@ public class Personaje {
         return tieneBarba;
     }
 
+    public boolean isTieneLabial() {
+        return tieneLabial;
+    }
+
     public boolean isTienePelo() {
         return tienePelo;
     }
@@ -132,6 +139,7 @@ public class Personaje {
                 && this.tieneCollar == otro.tieneCollar
                 && this.colorRemera.equals(otro.colorRemera)
                 && this.tieneBarba == otro.tieneBarba
+                && this.tieneLabial == otro.tieneLabial
                 && this.tienePelo == otro.tienePelo
                 && this.largoPelo.equals(otro.largoPelo)
                 && this.tipoPelo.equals(otro.tipoPelo);
@@ -151,6 +159,7 @@ public class Personaje {
                 ", tieneCollar=" + tieneCollar +
                 ", colorRemera='" + colorRemera + '\'' +
                 ", tieneBarba=" + tieneBarba +
+                ", tieneLabial=" + tieneLabial +
                 ", tienePelo=" + tienePelo +
                 ", largoPelo='" + largoPelo + '\'' +
                 ", tipoPelo='" + tipoPelo + '\'' +

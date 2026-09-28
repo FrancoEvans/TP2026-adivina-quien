@@ -296,3 +296,92 @@ para elegir la modalidad del juego
   cuando Greedy NO es optimo, Big O de la app, algoritmos no aplicados,
   y justificacion de SOLID (Open/Closed y Liskov en el diseño de Jugador). 
 - agregar tableros visuales al modo Maquina vs Maquina (opcional)
+
+---
+
+## 2026-09-28 - parte 9: avatares visuales, reglas de atributos, preguntas por categoria
+
+**avatares (lo visual)**
+- cada personaje ahora se dibuja segun sus atributos, en vez de ser solo un boton con texto.
+- tecnica: composicion por capas. PNG transparentes de 256x256, todos alineados sobre el
+  mismo lienzo, que se superponen de atras hacia adelante.
+- `avatar_capas/` -> fuentes SVG de las capas (hechas con IA a partir de un prompt con
+  anclajes fijos: centro de cabeza, ojos, boca, esquinas reservadas) + `preview.svg`.
+  no se usa en tiempo de ejecucion, queda como fuente por si hay que retocar un dibujo.
+- `recursos/avatar/` -> las 29 capas convertidas a PNG (se pasaron con resvg). java lee
+  PNG sin librerias externas; SVG hubiera necesitado Batik.
+- `AvatarRenderer` (nueva, en UI):
+  - `armar(personaje)` superpone las capas en orden: pelo atras -> remera -> cabeza ->
+    collar -> arrugas -> cara -> labial -> iris -> ojos -> barba -> pelo frente -> lentes
+    -> gorro -> paleta -> simbolo de genero.
+  - `icono(personaje, tam)` devuelve el avatar escalado para el boton.
+  - las capas de piel, pelo, ojos y remera estan en escala de grises y se tiñen por codigo
+    (multiplicacion de color): el gris claro toma el color y el contorno oscuro sigue
+    oscuro. asi no hace falta un PNG por color (el pelo son 15 PNG en vez de 15 x colores).
+  - los colores de cada valor ("Colorado", "Miel", etc) estan en Maps al principio de la clase.
+  - cache: cada PNG se lee una sola vez.
+- como se representa cada atributo:
+  - genero -> simbolo ♀ rosa / ♂ azul arriba a la derecha.
+  - edad -> niño: paleta abajo a la izquierda; joven: nada; adulto: arrugas.
+  - pelo -> largo x tipo elige la capa, el color la tiñe. el corto no tiene parte de atras.
+  - pelados con barba -> barba negra (no tienen color de pelo).
+- `PantallaJuego` -> cada boton muestra el avatar de 96px con el nombre abajo. cuando un
+  personaje se descarta y el boton se deshabilita, swing pone la imagen en gris solo.
+
+**reglas de atributos**
+- `Personaje` / `ListaPersonajes` -> nuevo atributo `tieneLabial` (equivalente femenino de
+  la barba). pregunta nueva "Tiene labial?" en `Main`, y "Labial" en el tooltip.
+- barba: solo hombres, y no niños.
+- labial: solo mujeres.
+- pelo: las mujeres nunca son peladas. los hombres tienen 30% de ser pelados (antes 50%).
+- gorro y lentes: 30% de probabilidad (antes 50%). `random.nextDouble() < 0.3`.
+- se elimino el color de pelo "Amarillo" (valor, pregunta y color del avatar): era casi
+  igual a "Rubio". OJO: en la parte 4 se habia agregado porque la consigna lo pedia como
+  filtro obligatorio. si hace falta, se vuelve a agregar.
+
+**decisiones**
+- las reglas se aplican en dos lugares: en el generador (para que el sorteo tenga sentido)
+  y en el constructor de `Personaje`, que normaliza igual que ya hacia con el pelo (si no
+  tiene pelo -> "N/A"). asi no puede existir un personaje invalido aunque se cree por fuera
+  del generador.
+- efecto en el juego: "Tiene barba?" = si tambien dice que es hombre y no niño. y gorro /
+  lentes al 30% dividen 30/70, asi que la maquina (que busca la division mas pareja) las
+  elige mas tarde.
+
+**arriesgar**
+- `Jugador.descartarPersonaje(p)` + `Juego.jugarTurno()`: si alguien arriesga y no es, ese
+  personaje sale de sus candidatos. en la pantalla, el boton se apaga al empezar el
+  siguiente turno (`teToca()` ya apagaba los que no estan en candidatos).
+- esto tambien arreglo un bug: cuando a la maquina se le acababan las preguntas utiles,
+  arriesgaba siempre `getCandidatos().get(0)` y si no era repetia el mismo personaje para
+  siempre (partida infinita). ahora va descartando.
+- probado con una partida simulada de peor caso (solo arriesgan, secretos al final): antes
+  no terminaba nunca, ahora termina en 45 turnos.
+
+**preguntas por categoria**
+- `PantallaJuego` -> la lista de preguntas ahora esta agrupada con encabezados: Genero, Edad,
+  Pelo, Cara, Ropa, Accesorios.
+- la lista mezcla titulos (String) y preguntas (Pregunta). un renderer propio dibuja los
+  titulos en negrita con fondo y las preguntas con sangria. los titulos no se pueden
+  seleccionar.
+- la categoria sale del atributo de la pregunta (switch en `categoria()`), asi no hubo que
+  tocar `Pregunta` ni `Main`. las categorias que se quedan sin preguntas no se muestran.
+- el orden se cambia en `ORDEN_CATEGORIAS`.
+
+**problemas**
+- en el constructor de `Personaje`, largo/tipo/color de pelo y el mapa de atributos usaban
+  el parametro `tienePelo` en vez del campo ya normalizado -> se cambio a `this.tienePelo`.
+- a 96px los lentes y el collar se notan poco (los ojos grandes con borde parecen lentes).
+  se verifico por pixeles que el dibujo coincide con el atributo; queda el tooltip.
+
+**big o (para el informe)**
+- armar un avatar: O(capas x pixeles) = ~15 capas x 256x256. se hace una vez por personaje
+  al abrir la pantalla.
+- agrupar preguntas por categoria: O(p) por turno, p = preguntas disponibles.
+
+**pendiente**
+- UML: agregar `AvatarRenderer` y el nuevo atributo `tieneLabial`.
+- informe: seccion de avatares (composicion por capas + tinte).
+- confirmar con la consigna si se puede sacar "Amarillo".
+- agregar tableros visuales al modo Maquina vs Maquina (opcional, ya se puede reusar
+  `AvatarRenderer`).

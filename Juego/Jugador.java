@@ -50,6 +50,11 @@ public abstract class Jugador {
         }
     }
 
+    // saca de los candidatos a un personaje que arriesgo y no era
+    public void descartarPersonaje(Personaje personaje) {
+        candidatos.remove(personaje);
+    }
+
     // ya lo tiene identificado
     public boolean identificado() {
         return candidatos.size() == 1;

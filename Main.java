@@ -70,7 +70,7 @@ public class Main {
 
     private static List<Pregunta> armarPreguntas() {
         List<Pregunta> preguntas = new ArrayList<>();
-        preguntas.add(new Pregunta("Es de genero femenino?", "genero", "Femenino"));
+        preguntas.add(new Pregunta("Es Mujer?", "genero", "Femenino"));
 
         preguntas.add(new Pregunta("Es niño?", "rangoEteareo", "Niño"));
         preguntas.add(new Pregunta("Es joven?", "rangoEteareo", "Joven"));
@@ -78,7 +78,6 @@ public class Main {
 
         preguntas.add(new Pregunta("Tiene el pelo colorado?", "colorPelo", "Colorado"));
         preguntas.add(new Pregunta("Tiene el pelo negro?", "colorPelo", "Negro"));
-        preguntas.add(new Pregunta("Tiene el pelo amarillo?", "colorPelo", "Amarillo"));
         preguntas.add(new Pregunta("Tiene el pelo rubio?", "colorPelo", "Rubio"));
         preguntas.add(new Pregunta("Tiene el pelo canoso?", "colorPelo", "Canoso"));
 
@@ -115,6 +114,8 @@ public class Main {
         preguntas.add(new Pregunta("Usa collar?", "tieneCollar", "true"));
 
         preguntas.add(new Pregunta("Tiene barba?", "tieneBarba", "true"));
+
+        preguntas.add(new Pregunta("Tiene labial?", "tieneLabial", "true"));
 
         return preguntas;
     }

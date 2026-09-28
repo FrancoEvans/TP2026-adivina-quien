@@ -66,6 +66,8 @@ public class Juego {
                     + " -> " + (acierto ? "Si" : "No"));
             if (acierto) {
                 ganador = turnoActual;
+            } else {
+                turnoActual.descartarPersonaje(arriesgado); // si no era, deja de ser candidato
             }
             // puede arriesgar las veces que quiera, solo pierde el turno, igual que si hubiera preguntado
         }

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+<path d="M119.6,454.7 A14.4,14.4 0 0 1 111.3,433 A14.9,14.9 0 0 1 111,409 A14.9,14.9 0 0 1 110.6,385.1 A14.9,14.9 0 0 1 110.1,361.1 A14.9,14.9 0 0 1 110.2,337.2 A14.9,14.9 0 0 1 110.7,313.2 A14.9,14.9 0 0 1 111,289.2 A14.9,14.9 0 0 1 111.3,265.3 A14.9,14.9 0 0 1 111.9,241.3 A14.9,14.9 0 0 1 113.1,217.4 A14.9,14.9 0 0 1 115.1,193.5 A14.9,14.9 0 0 1 118.4,169.8 A14.8,14.8 0 0 1 124.7,146.7 A14.8,14.8 0 0 1 134.2,124.7 A14.8,14.8 0 0 1 147.8,105 A14.8,14.8 0 0 1 166.2,89.8 A14.9,14.9 0 0 1 186.9,77.8 A14.8,14.8 0 0 1 209.3,69.5 A14.8,14.8 0 0 1 232.9,65.4 A14.9,14.9 0 0 1 256.8,64.6 A14.8,14.8 0 0 1 280.8,65.6 A14.8,14.8 0 0 1 304.3,69.9 A14.8,14.8 0 0 1 326.6,78.6 A14.8,14.8 0 0 1 347.2,90.8 A14.8,14.8 0 0 1 365.4,106.3 A14.8,14.8 0 0 1 378.6,126.2 A14.8,14.8 0 0 1 387.8,148.3 A14.8,14.8 0 0 1 393.9,171.5 A14.9,14.9 0 0 1 397,195.2 A14.9,14.9 0 0 1 399,219.1 A14.9,14.9 0 0 1 400.2,243 A14.9,14.9 0 0 1 400.8,267 A14.9,14.9 0 0 1 401,290.9 A14.9,14.9 0 0 1 401.4,314.9 A14.9,14.9 0 0 1 401.8,338.9 A14.9,14.9 0 0 1 401.9,362.8 A14.9,14.9 0 0 1 401.3,386.8 A14.9,14.9 0 0 1 401,410.7 A14.8,14.8 0 0 1 400.5,434.7 A14.3,14.3 0 0 1 390.9,455.6 A14.7,14.7 0 0 1 367.4,457.7 A14.8,14.8 0 0 1 344.1,452.4 A14.6,14.6 0 0 1 324.4,439.6 A14.6,14.6 0 0 1 322,416.1 A14.9,14.9 0 0 1 326.1,392.5 A14.9,14.9 0 0 1 329.3,368.8 A14.9,14.9 0 0 1 333.3,345.2 A14.9,14.9 0 0 1 337.4,321.6 A14.9,14.9 0 0 1 341.5,297.9 A14.9,14.9 0 0 1 344.6,274.2 A14.9,14.9 0 0 1 345.9,250.3 A14.9,14.9 0 0 1 345.8,226.3 A14.9,14.9 0 0 1 344.3,202.4 A14.9,14.9 0 0 1 341.2,178.6 A14.8,14.8 0 0 1 331.9,156.7 A14.6,14.6 0 0 1 314.4,140.9 A14.8,14.8 0 0 1 291,135.9 A14.8,14.8 0 0 1 267.1,134.1 A14.9,14.9 0 0 1 243.2,134.2 A14.8,14.8 0 0 1 219.3,136.1 A14.8,14.8 0 0 1 196.1,141.6 A14.7,14.7 0 0 1 179.2,158.1 A14.8,14.8 0 0 1 170.5,180.3 A14.9,14.9 0 0 1 167.6,204.1 A14.9,14.9 0 0 1 166.2,228 A14.9,14.9 0 0 1 166.1,252 A14.9,14.9 0 0 1 167.6,275.9 A14.9,14.9 0 0 1 170.8,299.6 A14.9,14.9 0 0 1 174.9,323.2 A14.9,14.9 0 0 1 179,346.8 A14.9,14.9 0 0 1 182.9,370.5 A14.8,14.8 0 0 1 186.2,394.2 A14.9,14.9 0 0 1 190.2,417.8 A14.5,14.5 0 0 1 186.7,441 A14.7,14.7 0 0 1 166.3,452.9 A14.8,14.8 0 0 1 142.9,457.9 A14.6,14.6 0 0 1 119.6,454.7 Z" fill="#E6E6E6" stroke="#2B2B2B" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M219,112 A8,8 0 1,1 233,110" stroke="#BDBDBD" stroke-width="4" stroke-linecap="round" fill="none"/>
+<path d="M279,112 A8,8 0 1,1 293,110" stroke="#BDBDBD" stroke-width="4" stroke-linecap="round" fill="none"/>
+<path d="M189,126 A8,8 0 1,1 203,124" stroke="#BDBDBD" stroke-width="4" stroke-linecap="round" fill="none"/>
+<path d="M309,126 A8,8 0 1,1 323,124" stroke="#BDBDBD" stroke-width="4" stroke-linecap="round" fill="none"/>
+<path d="M249,104 A8,8 0 1,1 263,102" stroke="#BDBDBD" stroke-width="4" stroke-linecap="round" fill="none"/>
+<path d="M145,204 A8,8 0 1,1 159,202" stroke="#BDBDBD" stroke-width="4" stroke-linecap="round" fill="none"/>
+<path d="M145,238 A8,8 0 1,1 159,236" stroke="#BDBDBD" stroke-width="4" stroke-linecap="round" fill="none"/>
+<path d="M145,272 A8,8 0 1,1 159,270" stroke="#BDBDBD" stroke-width="4" stroke-linecap="round" fill="none"/>
+<path d="M145,306 A8,8 0 1,1 159,304" stroke="#BDBDBD" stroke-width="4" stroke-linecap="round" fill="none"/>
+<path d="M145,340 A8,8 0 1,1 159,338" stroke="#BDBDBD" stroke-width="4" stroke-linecap="round" fill="none"/>
+<path d="M145,374 A8,8 0 1,1 159,372" stroke="#BDBDBD" stroke-width="4" stroke-linecap="round" fill="none"/>
+<path d="M145,408 A8,8 0 1,1 159,406" stroke="#BDBDBD" stroke-width="4" stroke-linecap="round" fill="none"/>
+<path d="M353,204 A8,8 0 1,1 367,202" stroke="#BDBDBD" stroke-width="4" stroke-linecap="round" fill="none"/>
+<path d="M353,238 A8,8 0 1,1 367,236" stroke="#BDBDBD" stroke-width="4" stroke-linecap="round" fill="none"/>
+<path d="M353,272 A8,8 0 1,1 367,270" stroke="#BDBDBD" stroke-width="4" stroke-linecap="round" fill="none"/>
+<path d="M353,306 A8,8 0 1,1 367,304" stroke="#BDBDBD" stroke-width="4" stroke-linecap="round" fill="none"/>
+<path d="M353,340 A8,8 0 1,1 367,338" stroke="#BDBDBD" stroke-width="4" stroke-linecap="round" fill="none"/>
+<path d="M353,374 A8,8 0 1,1 367,372" stroke="#BDBDBD" stroke-width="4" stroke-linecap="round" fill="none"/>
+<path d="M353,408 A8,8 0 1,1 367,406" stroke="#BDBDBD" stroke-width="4" stroke-linecap="round" fill="none"/>
+</svg>

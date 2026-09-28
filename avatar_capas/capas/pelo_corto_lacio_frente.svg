@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+<path d="M150,214 C147,207 144.7,186.3 146,172 C147.3,157.7 151,140.3 158,128 C165,115.7 177.3,105.3 188,98 C198.7,90.7 210.7,87 222,84 C233.3,81 244.7,80 256,80 C267.3,80 278.7,81 290,84 C301.3,87 313.3,90.7 324,98 C334.7,105.3 347,115.7 354,128 C361,140.3 364.7,157.7 366,172 C367.3,186.3 365,207 362,214 C359,221 350.7,218.7 348,214 C345.3,209.3 348.3,195 346,186 C343.7,177 339,166.7 334,160 C329,153.3 323.3,149.3 316,146 C308.7,142.7 300,141.3 290,140 C280,138.7 267.3,138 256,138 C244.7,138 232,138.7 222,140 C212,141.3 203.3,142.7 196,146 C188.7,149.3 183,153.3 178,160 C173,166.7 168.3,177 166,186 C163.7,195 166.7,209.3 164,214 C161.3,218.7 153,221 150,214 Z" fill="#E6E6E6" stroke="#2B2B2B" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M238,98 Q230,116 220,128" stroke="#BDBDBD" stroke-width="4" stroke-linecap="round" fill="none"/>
+<path d="M274,98 Q282,116 292,128" stroke="#BDBDBD" stroke-width="4" stroke-linecap="round" fill="none"/>
+<path d="M206,104 Q192,120 186,140" stroke="#BDBDBD" stroke-width="4" stroke-linecap="round" fill="none"/>
+<path d="M306,104 Q320,120 326,140" stroke="#BDBDBD" stroke-width="4" stroke-linecap="round" fill="none"/>
+</svg>

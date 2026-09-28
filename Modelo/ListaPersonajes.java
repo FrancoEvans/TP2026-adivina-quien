@@ -24,7 +24,7 @@ public class ListaPersonajes {
     };
     private static final String [] generos = {"Masculino", "Femenino"};
     private static final String [] rangosEtareos = {"Niño", "Joven", "Adulto"};
-    private static final String [] coloresPelo = {"Rubio", "Negro", "Colorado", "Canoso", "Amarillo"};
+    private static final String [] coloresPelo = {"Rubio", "Negro", "Colorado", "Canoso"};
     private static final String [] coloresPiel ={"Blanco", "Negro", "Morocho"};
     private static final String [] coloresOjo = {"Azul", "Celeste", "Marron", "Miel", "Verde", "Negro"};
     private static final String [] coloresRemera = {"Negro", "Blanco", "Violeta", "Rosa"};
@@ -65,15 +65,16 @@ public class ListaPersonajes {
             String colorRemera = elegirRandom(coloresRemera);
             String largoPelo = elegirRandom(largosPelo);
             String tipoPelo = elegirRandom(tiposPelo);
-            boolean tieneGorro = random.nextBoolean();
-            boolean tieneLentes = random.nextBoolean();
+            boolean tieneGorro = random.nextDouble() < 0.3; // 30% de probabilidad
+            boolean tieneLentes = random.nextDouble() < 0.3; // 30% de probabilidad
             boolean tieneCollar = random.nextBoolean();
-            boolean tieneBarba = random.nextBoolean();
-            boolean tienePelo = random.nextBoolean();
+            boolean tieneBarba = genero.equals("Masculino") && !rangoEtareo.equals("Niño") && random.nextBoolean();
+            boolean tieneLabial = genero.equals("Femenino") && random.nextBoolean();
+            boolean tienePelo = genero.equals("Femenino") || random.nextDouble() >= 0.3; // las mujeres siempre tienen pelo, los hombres 30% pelados
 
             Personaje candidato = new Personaje(0, nombre, genero, rangoEtareo, colorPelo,
                     tieneGorro, colorPiel, tieneLentes, colorOjo,
-                    tieneCollar, colorRemera, tieneBarba, tienePelo,
+                    tieneCollar, colorRemera, tieneBarba, tieneLabial, tienePelo,
                     largoPelo, tipoPelo
             );
 
