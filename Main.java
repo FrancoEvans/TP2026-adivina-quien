@@ -1,7 +1,7 @@
 package TP;
 
 import TP.Algortimos.Criterios;
-import TP.Algortimos.ListaPersonajes;
+import TP.Modelo.ListaPersonajes;
 import TP.Juego.Juego;
 import TP.Juego.Jugador;
 import TP.Juego.JugadorHumano;
