@@ -1,4 +1,7 @@
-package TP;
+package TP.Juego;
+
+import TP.Modelo.Personaje;
+import TP.Modelo.Pregunta;
 
 import java.util.ArrayList;
 import java.util.List;

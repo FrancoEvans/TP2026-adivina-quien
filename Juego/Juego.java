@@ -1,6 +1,9 @@
-package TP;
+package TP.Juego;
 
-import java.util.ArrayList;
+import TP.Modelo.Jugada;
+import TP.Modelo.Personaje;
+import TP.Modelo.Pregunta;
+
 import java.util.List;
 public class Juego {
     private Jugador jugadorA;

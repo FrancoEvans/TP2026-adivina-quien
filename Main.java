@@ -1,15 +1,27 @@
 package TP;
 
+import TP.Algortimos.Criterios;
+import TP.Algortimos.ListaPersonajes;
+import TP.Juego.Juego;
+import TP.Juego.Jugador;
+import TP.Juego.JugadorHumano;
+import TP.Juego.JugadorMaquina;
+import TP.Modelo.Pregunta;
+import TP.UI.PantallaJuego;
+import TP.UI.PantallaMaquinaVsMaquina;
+import TP.UI.VentanaInicio;
+
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
+
 
 public class Main {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new VentanaInicio().setVisible(true));
     }
 
-    static void jugarHumanoVsMaquina(String nombre) {
+    public static void jugarHumanoVsMaquina(String nombre) {
         ListaPersonajes lista = armarTablero();
         List<Pregunta> preguntas = armarPreguntas();
 
@@ -21,7 +33,7 @@ public class Main {
         a.avisarFin(ganador, b.getEleccion());
     }
 
-    static void jugarMaquinaVsMaquina() {
+    public static void jugarMaquinaVsMaquina() {
         ListaPersonajes lista = armarTablero();
         List<Pregunta> preguntas = armarPreguntas();
 

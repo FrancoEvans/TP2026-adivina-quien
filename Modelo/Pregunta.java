@@ -1,4 +1,4 @@
-package TP;
+package TP.Modelo;
 
 public class Pregunta {
 

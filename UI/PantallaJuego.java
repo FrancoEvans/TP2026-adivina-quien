@@ -1,4 +1,11 @@
-package TP;
+package TP.UI;
+
+import TP.Juego.Jugador;
+import TP.Juego.JugadorHumano;
+import TP.Main;
+import TP.Modelo.Jugada;
+import TP.Modelo.Personaje;
+import TP.Modelo.Pregunta;
 
 import javax.swing.*;
 import java.awt.*;

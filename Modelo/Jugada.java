@@ -1,4 +1,4 @@
-package TP;
+package TP.Modelo;
 
 // accion de turno: preguntar o arriesgar. stub, se completa en el paso de turnos
 

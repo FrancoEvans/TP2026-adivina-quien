@@ -1,4 +1,9 @@
-package TP;
+package TP.Juego;
+
+import TP.Modelo.Jugada;
+import TP.UI.PantallaJuego;
+import TP.Modelo.Personaje;
+import TP.Modelo.Pregunta;
 
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;

@@ -1,4 +1,4 @@
-package TP;
+package TP.UI;
 
 import javax.swing.*;
 import java.awt.*;

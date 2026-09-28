@@ -1,7 +1,11 @@
-package TP;
+package TP.Juego;
 
 
 // hereda de Jugador, solo que la funcion de elegirJugada() es un algoritmo que elige la mejor pregunta posible
+
+import TP.Modelo.Jugada;
+import TP.Modelo.Personaje;
+import TP.Modelo.Pregunta;
 
 import java.util.List;
 import java.util.Random;

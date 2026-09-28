@@ -1,4 +1,6 @@
-package TP;
+package TP.Algortimos;
+
+import TP.Modelo.Personaje;
 
 import java.util.*;
 

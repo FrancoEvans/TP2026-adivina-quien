@@ -1,4 +1,4 @@
-package TP;
+package TP.Modelo;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
