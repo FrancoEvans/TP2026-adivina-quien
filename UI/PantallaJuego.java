@@ -1,5 +1,7 @@
 package TP.UI;
 
+import TP.Algortimos.Criterios;
+import TP.Algortimos.Sorter;
 import TP.Juego.Jugador;
 import TP.Juego.JugadorHumano;
 import TP.Main;
@@ -9,6 +11,7 @@ import TP.Modelo.Pregunta;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -24,6 +27,8 @@ public class PantallaJuego extends JFrame {
     private final DefaultListModel<Object> modeloPreguntas = new DefaultListModel<>();
     private final JList<Object> listaPreguntas = new JList<>(modeloPreguntas);
     private final JButton botonPreguntar = new JButton("Preguntar");
+    private final JPanel grilla = new JPanel(new GridLayout(0, 6, 5, 5)); // 6 columnas, las filas que hagan falta
+    private List<Personaje> ordenTablero; // orden en que se ven los botones (no cambia los ids)
 
     private boolean eligiendoSecreto = true; // al principio los clicks eligen el secreto
     private boolean miTurno = false;
@@ -42,10 +47,21 @@ public class PantallaJuego extends JFrame {
         estado = new JLabel("Elegí tu personaje secreto", SwingConstants.CENTER);
         estado.setFont(new Font("SansSerif", Font.BOLD, 18));
         estado.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
-        add(estado, BorderLayout.NORTH);
+
+        // arriba a la derecha: selector para reordenar el tablero
+        JComboBox<String> selectorOrden = new JComboBox<>(CRITERIOS.keySet().toArray(new String[0]));
+        selectorOrden.addActionListener(e -> ordenarTablero(CRITERIOS.get((String) selectorOrden.getSelectedItem())));
+        JPanel panelOrden = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 10));
+        panelOrden.add(new JLabel("Ordenar tablero por:"));
+        panelOrden.add(selectorOrden);
+
+        JPanel arriba = new JPanel(new BorderLayout());
+        arriba.add(estado, BorderLayout.CENTER);
+        arriba.add(panelOrden, BorderLayout.EAST);
+        add(arriba, BorderLayout.NORTH);
 
         // centro: el tablero, un boton por personaje
-        JPanel grilla = new JPanel(new GridLayout(0, 6, 5, 5)); // 6 columnas, las filas que hagan falta
+        ordenTablero = tablero;
         grilla.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 0));
         for (Personaje p : tablero) {
             JButton boton = new JButton(p.getId() + " - " + p.getNombre(), AvatarRenderer.icono(p, 96));
@@ -79,6 +95,20 @@ public class PantallaJuego extends JFrame {
         });
         botonPreguntar.setEnabled(false); // hasta que sea mi turno
         botonPreguntar.addActionListener(e -> clickPreguntar());
+    }
+
+    // reordena los botones con mergesort segun el criterio elegido.
+    // parte del orden actual: como mergesort es estable, se pueden encadenar criterios
+    // (ej: por color de pelo y despues por genero -> agrupados por genero y, dentro, por pelo)
+    // no toca los ids ni la lista del juego, solo lo que se ve
+    private void ordenarTablero(Comparator<Personaje> criterio) {
+        ordenTablero = Sorter.mergeSort(ordenTablero, criterio);
+        grilla.removeAll();
+        for (Personaje p : ordenTablero) {
+            grilla.add(botones.get(p));
+        }
+        grilla.revalidate();
+        grilla.repaint();
     }
 
     // lo llama el humano (via invokeLater) cuando arranca su turno
@@ -182,6 +212,26 @@ public class PantallaJuego extends JFrame {
 
     private String siNo(boolean b) {
         return b ? "Si" : "No";
+    }
+
+    // opciones del selector de orden, cada una con su criterio
+    private static final Map<String, Comparator<Personaje>> CRITERIOS = new LinkedHashMap<>();
+    static {
+        CRITERIOS.put("ID (original)", Criterios.porId());
+        CRITERIOS.put("Genero", Criterios.porGenero());
+        CRITERIOS.put("Edad", Criterios.porAtributo("rangoEteareo"));
+        CRITERIOS.put("Color de pelo", Criterios.porAtributo("colorPelo"));
+        CRITERIOS.put("Largo de pelo", Criterios.porAtributo("largoPelo"));
+        CRITERIOS.put("Tipo de pelo", Criterios.porAtributo("tipoPelo"));
+        CRITERIOS.put("Color de piel", Criterios.porAtributo("colorPiel"));
+        CRITERIOS.put("Color de ojos", Criterios.porAtributo("colorOjos"));
+        CRITERIOS.put("Color de remera", Criterios.porAtributo("colorRemera"));
+        CRITERIOS.put("Con lentes primero", Criterios.porAtributoBooleano("tieneLentes"));
+        CRITERIOS.put("Con gorro primero", Criterios.porAtributoBooleano("tieneGorro"));
+        CRITERIOS.put("Con collar primero", Criterios.porAtributoBooleano("tieneCollar"));
+        CRITERIOS.put("Con barba primero", Criterios.porAtributoBooleano("tieneBarba"));
+        CRITERIOS.put("Con labial primero", Criterios.porAtributoBooleano("tieneLabial"));
+        CRITERIOS.put("Con pelo primero", Criterios.porAtributoBooleano("tienePelo"));
     }
 
     private static final String[] ORDEN_CATEGORIAS = {"Genero", "Edad", "Pelo", "Cara", "Ropa", "Accesorios"};

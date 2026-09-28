@@ -299,7 +299,7 @@ para elegir la modalidad del juego
 
 ---
 
-## 2026-09-28 - parte 9: avatares visuales, reglas de atributos, preguntas por categoria
+## 2026-09-28 - parte 9: avatares visuales, reglas de atributos, preguntas por categoria, orden del tablero
 
 **avatares (lo visual)**
 - cada personaje ahora se dibuja segun sus atributos, en vez de ser solo un boton con texto.
@@ -308,7 +308,7 @@ para elegir la modalidad del juego
 - `avatar_capas/` -> fuentes SVG de las capas (hechas con IA a partir de un prompt con
   anclajes fijos: centro de cabeza, ojos, boca, esquinas reservadas) + `preview.svg`.
   no se usa en tiempo de ejecucion, queda como fuente por si hay que retocar un dibujo.
-- `recursos/avatar/` -> las 29 capas convertidas a PNG (se pasaron con resvg). java lee
+- `recursos/avatar/` -> las capas convertidas a PNG (se pasaron con resvg; 24 tras sacar "Ondeado"). java lee
   PNG sin librerias externas; SVG hubiera necesitado Batik.
 - `AvatarRenderer` (nueva, en UI):
   - `armar(personaje)` superpone las capas en orden: pelo atras -> remera -> cabeza ->
@@ -317,7 +317,7 @@ para elegir la modalidad del juego
   - `icono(personaje, tam)` devuelve el avatar escalado para el boton.
   - las capas de piel, pelo, ojos y remera estan en escala de grises y se tiñen por codigo
     (multiplicacion de color): el gris claro toma el color y el contorno oscuro sigue
-    oscuro. asi no hace falta un PNG por color (el pelo son 15 PNG en vez de 15 x colores).
+    oscuro. asi no hace falta un PNG por color (el pelo son 10 PNG en vez de 10 x colores).
   - los colores de cada valor ("Colorado", "Miel", etc) estan en Maps al principio de la clase.
   - cache: cada PNG se lee una sola vez.
 - como se representa cada atributo:
@@ -335,9 +335,17 @@ para elegir la modalidad del juego
 - labial: solo mujeres.
 - pelo: las mujeres nunca son peladas. los hombres tienen 30% de ser pelados (antes 50%).
 - gorro y lentes: 30% de probabilidad (antes 50%). `random.nextDouble() < 0.3`.
+- largo de pelo: mujeres medio o largo (nunca corto), hombres corto o medio (nunca largo).
+  el generador usa un array de largos por genero; el constructor pasa a "Medio" un largo no
+  permitido (`largoSegunGenero`).
+- color de pelo: los niños no pueden ser canosos. el generador usa un array sin "Canoso"
+  para niños; el constructor pasa a "Negro" un niño canoso (`colorSegunEdad`).
 - se elimino el color de pelo "Amarillo" (valor, pregunta y color del avatar): era casi
   igual a "Rubio". OJO: en la parte 4 se habia agregado porque la consigna lo pedia como
   filtro obligatorio. si hace falta, se vuelve a agregar.
+- se elimino el tipo de pelo "Ondeado" (valor y pregunta): era casi igual a "Enrulado".
+  quedan Lacio y Enrulado. se borraron sus 5 PNG de `recursos/avatar/` (los SVG siguen en
+  `avatar_capas/` por si se vuelve a agregar).
 
 **decisiones**
 - las reglas se aplican en dos lugares: en el generador (para que el sorteo tenga sentido)
@@ -368,6 +376,19 @@ para elegir la modalidad del juego
   tocar `Pregunta` ni `Main`. las categorias que se quedan sin preguntas no se muestran.
 - el orden se cambia en `ORDEN_CATEGORIAS`.
 
+**ordenar el tablero**
+- `PantallaJuego` -> selector "Ordenar tablero por:" arriba a la derecha. opciones: ID
+  (original), genero, edad, color/largo/tipo de pelo, color de piel/ojos/remera, y "con X
+  primero" para lentes, gorro, collar, barba, labial y pelo. usa los `Criterios` existentes.
+- `Criterios.porId()` (nuevo) -> vuelve al orden original.
+- ordena con `Sorter.mergeSort` partiendo del orden que se ve. como mergesort es estable se
+  pueden encadenar criterios: ordenar por pelo y despues por genero deja agrupado por genero
+  y, dentro de cada genero, por pelo. sirve para mostrar la estabilidad en el informe.
+- decision: solo reordena los botones, NO llama a `ListaPersonajes.ordenar()`. ese metodo
+  reasigna los ids, y el juego compara por id al arriesgar (en otro hilo) y el registro
+  muestra "id-nombre". cambiar ids en medio de la partida podia romper eso.
+- big o: O(n log n) por cada cambio de criterio.
+
 **problemas**
 - en el constructor de `Personaje`, largo/tipo/color de pelo y el mapa de atributos usaban
   el parametro `tienePelo` en vez del campo ya normalizado -> se cambio a `this.tienePelo`.
@@ -383,5 +404,7 @@ para elegir la modalidad del juego
 - UML: agregar `AvatarRenderer` y el nuevo atributo `tieneLabial`.
 - informe: seccion de avatares (composicion por capas + tinte).
 - confirmar con la consigna si se puede sacar "Amarillo".
+- informe: mostrar la estabilidad de mergesort encadenando criterios en el selector de orden.
+- UML: agregar `Criterios.porId()`.
 - agregar tableros visuales al modo Maquina vs Maquina (opcional, ya se puede reusar
   `AvatarRenderer`).

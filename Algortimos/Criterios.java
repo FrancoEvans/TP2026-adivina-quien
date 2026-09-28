@@ -14,6 +14,11 @@ public class Criterios {
         return Comparator.comparing(Personaje::getGenero);
     }
 
+    // por id: vuelve al orden original del tablero
+    public static Comparator<Personaje> porId() {
+        return Comparator.comparingInt(Personaje::getId);
+    }
+
     // los que cumplen el atributo booleano van primero (base viz futura)
     public static Comparator<Personaje> porAtributoBooleano(String atributo) {
         return (a, b) -> {

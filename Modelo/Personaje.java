@@ -24,9 +24,9 @@ public class Personaje {
 
     public Personaje( int id,String nombre, String genero, String rangoEteareo, String colorPelo, boolean tieneGorro, String colorPiel, boolean tieneLentes, String colorOjos, boolean tieneCollar, String colorRemera, boolean tieneBarba, boolean tieneLabial, boolean tienePelo, String largoPelo, String tipoPelo) {
         this.tienePelo = genero.equals("Femenino") || tienePelo; // no hay mujeres peladas
-        this.largoPelo = this.tienePelo ? largoPelo : "N/A";
+        this.largoPelo = this.tienePelo ? largoSegunGenero(genero, largoPelo) : "N/A";
         this.tipoPelo = this.tienePelo ? tipoPelo : "N/A";
-        this.colorPelo = this.tienePelo ? colorPelo : "N/A";
+        this.colorPelo = this.tienePelo ? colorSegunEdad(rangoEteareo, colorPelo) : "N/A";
         this.id = id;
         this.nombre = nombre;
         this.genero = genero;
@@ -54,6 +54,19 @@ public class Personaje {
         atributos.put("tieneCollar", String.valueOf(tieneCollar));
         atributos.put("tieneBarba", String.valueOf(this.tieneBarba));
         atributos.put("tieneLabial", String.valueOf(this.tieneLabial));
+    }
+
+    // mujer: medio o largo. hombre: corto o medio. si viene uno no permitido, pasa a medio
+    private static String largoSegunGenero(String genero, String largo) {
+        if (genero.equals("Femenino") && largo.equals("Corto")) return "Medio";
+        if (genero.equals("Masculino") && largo.equals("Largo")) return "Medio";
+        return largo;
+    }
+
+    // un niño no puede ser canoso: si viene canoso, pasa a negro
+    private static String colorSegunEdad(String rangoEtareo, String color) {
+        if (rangoEtareo.equals("Niño") && color.equals("Canoso")) return "Negro";
+        return color;
     }
 
     public int getId() {

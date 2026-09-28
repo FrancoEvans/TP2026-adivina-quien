@@ -86,7 +86,6 @@ public class Main {
         preguntas.add(new Pregunta("Tiene el pelo largo?", "largoPelo", "Largo"));
 
         preguntas.add(new Pregunta("Tiene el pelo lacio?", "tipoPelo", "Lacio"));
-        preguntas.add(new Pregunta("Tiene el pelo ondeado?", "tipoPelo", "Ondeado"));
         preguntas.add(new Pregunta("Tiene el pelo enrulado?", "tipoPelo", "Enrulado"));
 
         preguntas.add(new Pregunta("Tiene la piel blanca?", "colorPiel", "Blanco"));

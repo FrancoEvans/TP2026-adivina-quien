@@ -25,11 +25,13 @@ public class ListaPersonajes {
     private static final String [] generos = {"Masculino", "Femenino"};
     private static final String [] rangosEtareos = {"Niño", "Joven", "Adulto"};
     private static final String [] coloresPelo = {"Rubio", "Negro", "Colorado", "Canoso"};
+    private static final String [] coloresPeloNino = {"Rubio", "Negro", "Colorado"}; // los niños no son canosos
     private static final String [] coloresPiel ={"Blanco", "Negro", "Morocho"};
     private static final String [] coloresOjo = {"Azul", "Celeste", "Marron", "Miel", "Verde", "Negro"};
     private static final String [] coloresRemera = {"Negro", "Blanco", "Violeta", "Rosa"};
-    private static final String [] largosPelo ={"Corto", "Medio", "Largo"};
-    private static final String [] tiposPelo ={"Lacio", "Ondeado", "Enrulado"};
+    private static final String [] largosPeloFemenino ={"Medio", "Largo"}; // las mujeres no tienen pelo corto
+    private static final String [] largosPeloMasculino ={"Corto", "Medio"}; // los hombres no tienen pelo largo
+    private static final String [] tiposPelo ={"Lacio", "Enrulado"};
 
     public ListaPersonajes() {
         this.personajes = new ArrayList<>();
@@ -59,11 +61,11 @@ public class ListaPersonajes {
                 nombre = femeninosDisponibles.get(indiceFemenino);
             }
             String rangoEtareo = elegirRandom(rangosEtareos);
-            String colorPelo = elegirRandom(coloresPelo);
+            String colorPelo = elegirRandom(rangoEtareo.equals("Niño") ? coloresPeloNino : coloresPelo);
             String colorPiel = elegirRandom(coloresPiel);
             String colorOjo = elegirRandom(coloresOjo);
             String colorRemera = elegirRandom(coloresRemera);
-            String largoPelo = elegirRandom(largosPelo);
+            String largoPelo = elegirRandom(genero.equals("Femenino") ? largosPeloFemenino : largosPeloMasculino);
             String tipoPelo = elegirRandom(tiposPelo);
             boolean tieneGorro = random.nextDouble() < 0.3; // 30% de probabilidad
             boolean tieneLentes = random.nextDouble() < 0.3; // 30% de probabilidad
